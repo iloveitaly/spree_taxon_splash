@@ -30,3 +30,17 @@ RSpec.configure do |config|
   # instead of true.
   config.use_transactional_fixtures = true
 end
+
+require 'factory_girl'
+
+Dir["#{File.dirname(__FILE__)}/factories/**"].each do |f|
+  fp =  File.expand_path(f)
+  require fp
+end
+
+# pulled from: https://github.com/spree/spree/blob/master/core/spec/spec_helper.rb
+RSpec::Matchers.define :have_valid_factory do |factory_name|
+  match do |model|
+    Factory(factory_name).new_record?.should be_false
+  end
+end
