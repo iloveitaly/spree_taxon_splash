@@ -1,7 +1,7 @@
 SpreeTaxonSplash
 ================
 
-Introduction goes here.
+Ability to create customized splash pages for specific taxon displays.
 
 
 Example
