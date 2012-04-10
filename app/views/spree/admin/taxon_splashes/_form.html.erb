@@ -1,0 +1,5 @@
+<%= f.field_container :content do %>
+  <%= f.label :content, t(:content) %><br />
+  <%= f.text_area :content, {:content => 60, :rows => 4, :class => 'fullwidth'} %>
+<% end %>
+<%= f.select :taxon_id, Spree::Taxon.all.map { |t| [t.name, t.id]} %>
