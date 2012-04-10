@@ -1,7 +1,7 @@
 SpreeTaxonSplash
 ================
 
-Ability to create customized splash pages for specific taxon displays.
+Ability to create customized splash pages for taxon displays.
 
 
 Example
@@ -18,4 +18,4 @@ Be sure to bundle your dependencies and then create a dummy test app for the spe
     $ bundle exec rake test_app
     $ bundle exec rspec spec
 
-Copyright (c) 2012 [name of extension creator], released under the New BSD License
+Copyright (c) 2012 Michael Bianco (@iloveitaly), released under the New BSD License

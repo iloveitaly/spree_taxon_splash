@@ -1,6 +1,10 @@
 module Spree
 	class TaxonSplash < ActiveRecord::Base
-		belongs_to :taxon
+		belongs_to :taxon, :autosave => true
+
+		def is_leaf?
+			children.count == 0
+		end
 
 		def children
 			begin
@@ -11,7 +15,8 @@ module Spree
 		end 
 
 		def products
-			[]
+			# TODO: see if products are manually defined, if not fallback to taxon products
+			taxon.products
 		end
 	end
 end

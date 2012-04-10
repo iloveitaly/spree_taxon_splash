@@ -1,0 +1,17 @@
+<%= @taxon.taxon_splash.content %>
+<% if @taxon.taxon_splash.is_leaf? %>
+<h2><%= t(:product_components) %></h2>
+<table>
+<% @taxon.taxon_splash.products.each do |product| %>
+	<tr>
+		<td><%= product.name %></td>
+	</tr>
+<% end %>
+</table>
+<% else %>
+<% @taxon.taxon_splash.children.each do |child_splash| %>
+<div>
+	<%= child_splash.taxon.name %>
+</div>
+<% end %>
+<% end %>
