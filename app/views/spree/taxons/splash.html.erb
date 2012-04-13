@@ -1,13 +1,55 @@
 <%= @taxon.taxon_splash.content %>
 <% if @taxon.taxon_splash.is_leaf? %>
 <h2><%= t(:product_components) %></h2>
-<table>
-<% @taxon.taxon_splash.products.each do |product| %>
-	<tr>
-		<td><%= product.name %></td>
-	</tr>
+<%
+# this is a 'sub-cart' of sorts
+order = current_order
+bundle_variant_list = @taxon.taxon_splash.products.map { |p| p.variants_including_master }.flatten
+
+relevant_line_items = {}
+order.line_items.select { |l| bundle_variant_list.include? l.variant }.each { |l| relevant_line_items[l.variant.id] = l }
+%>
+<%= form_for :order, :url => bundle_populate_orders_url do |f| %>
+	<table id="bundle_list" data-hook>
+	  <thead>
+	    <tr data-hook="cart_items_headers">
+	      <th colspan="2"><%= t(:item) %></th>
+	      <th><%= t(:price) %></th>
+	      <th><%= t(:qty) %></th>
+	    </tr>
+	  </thead>
+	  <tbody id="line_items" data-hook>
+	  	<% @taxon.taxon_splash.products.each do |product| %>
+			<% product.variants_including_master.each do |variant| %>
+		<tr class="<%= cycle('', 'alt') %>">
+		  <td data-hook="cart_item_image">
+		    <% if variant.images.length == 0 %>
+		      <%= link_to small_image(variant.product), variant.product %>
+		    <% else %>
+		      <%= link_to image_tag(variant.images.first.attachment.url(:small)), variant.product %>
+		    <% end %>
+		  </td>
+		  <td data-hook="cart_item_description">
+		    <h4><%= link_to variant.product.name, product_path(variant.product) %></h4>
+		    <%= variant.options_text %>
+		    <%= truncate(variant.product.description, :length => 100, :omission => "...") %>
+		  </td>
+		  <td data-hook="cart_item_price">
+		    <%= number_to_currency variant.price %>
+		  </td>
+		  <td data-hook="cart_item_quantity">
+		    <%= number_field_tag "variants[#{variant.id}]", relevant_line_items[variant.id].try(:quantity) || 0 , :class => "", :size => 5, :min => 0 %>
+		  </td>
+		</tr>
+	 	   <% end %>
+	    <% end %>
+	  </tbody>
+	</table>
+
+<div class="row" style="text-align:right">
+  <%= button_tag :class => 'btn btn-primary', :id => 'update-button' do %><%= t(:update_cart) %><% end %>
+</div>
 <% end %>
-</table>
 <% else %>
 <% @taxon.taxon_splash.children.each do |child_splash| %>
 <div>

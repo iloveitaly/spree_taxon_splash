@@ -19,12 +19,12 @@
     </tr>
   </thead>
   <tbody>
-    <% @splashes.each do |slide|%>
-      <tr id="<%= dom_id slide %>" data-hook="admin_slides_index_rows">
-        <td width="350px" ><%=link_to slide.taxon.name, seo_url(slide.taxon), :target => "_blank" %></td>
+    <% @splashes.each do |splash|%>
+      <tr id="<%= dom_id splash %>" data-hook="admin_slides_index_rows">
+        <td width="350px" ><%=link_to splash.taxon.name, seo_url(splash.taxon), :target => "_blank" %></td>
         <td data-hook="admin_slides_index_row_actions">
-          <%= link_to_edit slide, :class => 'edit' %> &nbsp;
-          <%= link_to_delete slide %>
+          <%= link_to_edit splash, :class => 'edit' %> &nbsp;
+          <%= link_to_delete splash %>
         </td>
       </tr>
     <% end %>
