@@ -7,7 +7,7 @@ order = current_order
 bundle_variant_list = @taxon.taxon_splash.products.map { |p| p.variants_including_master }.flatten
 
 relevant_line_items = {}
-order.line_items.select { |l| bundle_variant_list.include? l.variant }.each { |l| relevant_line_items[l.variant.id] = l }
+order.try(:line_items) { |o| o.select { |l| bundle_variant_list.include? l.variant }.each { |l| relevant_line_items[l.variant.id] = l } }
 %>
 <%= form_for :order, :url => bundle_populate_orders_url do |f| %>
 	<table id="bundle_list" data-hook>
