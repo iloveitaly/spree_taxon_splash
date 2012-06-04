@@ -21,11 +21,17 @@ Spree::OrdersController.class_eval do
       end
     end if params[:variants]
 
+    flash[:notice] = t(:added_to_cart)
+
     @order.save
 
     fire_event('spree.cart.add')
     fire_event('spree.order.contents_changed')
 
-    redirect_to(:back)
+    unless request.env["HTTP_REFERER"].blank?
+      redirect_to(request.env["HTTP_REFERER"] + '#bundle_list')
+    else
+      redirect_to(:back)
+    end
 	end
 end

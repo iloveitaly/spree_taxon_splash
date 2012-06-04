@@ -2,6 +2,7 @@ module Spree
 	class TaxonSplash < ActiveRecord::Base
 		belongs_to :taxon, :autosave => true
 		validates_presence_of :taxon
+		attr_accessible :taxon_id, :content
 		
 		def is_leaf?
 			children.count == 0

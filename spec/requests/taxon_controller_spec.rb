@@ -16,9 +16,12 @@ describe Spree::TaxonsController do
       response.body.should have_content(s.content)
     end
 
+    it "should update product quantities correctly" do
+      
+    end
+
     it "should not modify search results" do
       # search results are routed through the taxon controller
-      
     end
   end
 
