@@ -17,6 +17,8 @@ relevant_line_items = {}
 order.line_items.each do |l|
 	relevant_line_items[l.variant.id] = l if bundle_variant_list.include? l.variant
 end if order.try(:line_items)
+
+unless bundle_variant_list.blank?
 %>
 <%= form_for :order, :url => bundle_populate_orders_url do |f| %>
 <table>
@@ -28,8 +30,7 @@ end if order.try(:line_items)
     </tr>
   </thead>
   <tbody id="line_items" data-hook>
-  	<% @taxon.taxon_splash.products.each do |product| %>
-		<% product.variants_including_master.each do |variant| %>
+  	<% bundle_variant_list.each do |variant| %>
 	<tr class="<%= cycle('', 'alt') %>">
 	  <td data-hook="cart_item_image">
 	    <% if variant.images.length == 0 %>
@@ -49,14 +50,14 @@ end if order.try(:line_items)
 	    <%= number_field_tag "variants[#{variant.id}]", relevant_line_items[variant.id].try(:quantity) || 0 , :class => "", :size => 5, :min => 0 %>
 	  </td>
 	</tr>
- 	   <% end %>
-    <% end %>
+ 	<% end %>
   </tbody>
 </table>
 <div class="cart-buttons">
-  <%= button_tag t(:update_cart), :class => 'btn btn-large', :id => 'update-button' %>
-  <%= button_tag t(:checkout_now), :class => 'btn btn-large btn-success', :id => 'update-button' %>
+  <%= button_tag t(:update_cart), :class => 'btn btn-large', :id => 'update-button', :name => 'update' %>
+  <%= button_tag t(:checkout_now), :class => 'btn btn-large btn-success', :id => 'checkout-button', :name => 'checkout' %>
 </div>
+<% end %>
 </div>
 <% end %>
 <% else %>

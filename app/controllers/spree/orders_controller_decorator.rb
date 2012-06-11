@@ -7,7 +7,7 @@ Spree::OrdersController.class_eval do
 
     params[:variants].each do |variant_id, quantity|
       quantity = quantity.to_i
-      variant_id = variant_id
+      variant_id = variant_id.to_i
 
       # update (not add) if already in cart
       if not existing_variants[variant_id].nil?
@@ -28,8 +28,10 @@ Spree::OrdersController.class_eval do
     fire_event('spree.cart.add')
     fire_event('spree.order.contents_changed')
 
-    unless request.env["HTTP_REFERER"].blank?
-      redirect_to(request.env["HTTP_REFERER"] + '#bundle_list')
+    if params.has_key? :checkout
+      redirect_to cart_path
+    elsif request.env["HTTP_REFERER"].present?
+      redirect_to(request.env["HTTP_REFERER"].end_with?('#bundle_list') ? request.env["HTTP_REFERER"] : request.env["HTTP_REFERER"] + '#bundle_list')
     else
       redirect_to(:back)
     end
