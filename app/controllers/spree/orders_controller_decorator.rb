@@ -28,12 +28,10 @@ Spree::OrdersController.class_eval do
     fire_event('spree.cart.add')
     fire_event('spree.order.contents_changed')
 
-    if params.has_key? :checkout
+    if params.has_key? :checkout or request.env["HTTP_REFERER"].blank?
       redirect_to cart_path
-    elsif request.env["HTTP_REFERER"].present?
-      redirect_to(request.env["HTTP_REFERER"].end_with?('#bundle_list') ? request.env["HTTP_REFERER"] : request.env["HTTP_REFERER"] + '#bundle_list')
     else
-      redirect_to(:back)
+      redirect_to(request.env["HTTP_REFERER"].end_with?('#bundle_list') ? request.env["HTTP_REFERER"] : request.env["HTTP_REFERER"] + '#bundle_list')
     end
 	end
 end
