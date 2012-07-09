@@ -10,7 +10,7 @@ describe Spree::TaxonsController do
       response.body.should include(t.name)
 
       old_response = response
-      s = FactoryGirl.create :taxon_splash, :taxon => t
+      s = FactoryGirl.create :taxon_splash, :taxon => t, :content => 'Unique Title'
       get nested_taxons_path(t.permalink)
       response.body.should_not == old_response.body
       response.body.should have_content(s.content)
@@ -63,13 +63,7 @@ describe Spree::TaxonsController do
       end
 
       get nested_taxons_path(root_taxon.permalink)
-      # puts "HAS IT? #{root_taxon.permalink}"
-      # puts response.body
-      # old_response = response.body
       @root_taxon_splash.destroy
-      # puts "HAS IT? #{root_taxon.taxon_splash.content}"
-      # get nested_taxons_path(root_taxon.permalink)
-      # response.body.should_not == old_response   
 
       root_taxon.children.each_with_index do |child, index|
         child.reload

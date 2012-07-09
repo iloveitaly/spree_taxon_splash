@@ -1,2 +1,2 @@
-"1.0.x" => { :branch => "master" }
+"1.0.x" => { :ref => "8a359ce7a9d4dcedef946d3a0e13840778dbef42" }
 "1.1.x" => { :branch => "master" }

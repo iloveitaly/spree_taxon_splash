@@ -1,4 +1,6 @@
 Spree::OrdersController.class_eval do
+  # UPGRADE_CHECK although bundle_populate is a custom method, it is closely related to #update
+  # and should checked during the upgrade process
 	def bundle_populate
     @order = current_order(true)
 
