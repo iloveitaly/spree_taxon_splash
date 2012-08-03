@@ -2,7 +2,7 @@
 Gem::Specification.new do |s|
   s.platform    = Gem::Platform::RUBY
   s.name        = 'spree_taxon_splash'
-  s.version     = '1.0.2'
+  s.version     = '1.0.3'
   s.summary     = 'Create custom taxon splash pages'
   s.description = 'TODO: Add (optional) gem description here'
   s.required_ruby_version = '>= 1.8.7'
