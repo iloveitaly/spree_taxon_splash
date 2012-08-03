@@ -1,7 +1,7 @@
 Spree::OrdersController.class_eval do
   # UPGRADE_CHECK although bundle_populate is a custom method, it is closely related to #update
   # and should checked during the upgrade process
-	def bundle_populate
+  def bundle_populate
     @order = current_order(true)
 
     # TODO since we don't need the index anymore this could be cleaned up
@@ -35,5 +35,5 @@ Spree::OrdersController.class_eval do
     else
       redirect_to(request.env["HTTP_REFERER"].end_with?('#bundle_list') ? request.env["HTTP_REFERER"] : request.env["HTTP_REFERER"] + '#bundle_list')
     end
-	end
+  end
 end
