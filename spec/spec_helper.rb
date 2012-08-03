@@ -11,6 +11,8 @@ Dir[File.join(File.dirname(__FILE__), "support/**/*.rb")].each {|f| require f }
 
 # Requires factories defined in spree_core
 require 'spree/core/testing_support/factories'
+require 'spree/core/testing_support/env'
+require 'spree/core/testing_support/controller_requests'
 
 RSpec.configure do |config|
   # == Mock Framework
@@ -22,6 +24,9 @@ RSpec.configure do |config|
   # config.mock_with :rr
   config.mock_with :rspec
 
+  config.include Spree::Core::TestingSupport::ControllerRequests
+  config.include Devise::TestHelpers, :type => :controller
+
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
 
@@ -29,6 +34,7 @@ RSpec.configure do |config|
   # examples within a transaction, remove the following line or assign false
   # instead of true.
   config.use_transactional_fixtures = true
+
 end
 
 # load factory definitions
@@ -39,7 +45,6 @@ Dir["#{File.dirname(__FILE__)}/factories/**"].each do |f|
   require fp
 end
 
-# pulled from: https://github.com/spree/spree/blob/master/core/spec/spec_helper.rb
 RSpec::Matchers.define :have_valid_factory do |factory_name|
   match do |model|
     FactoryGirl.create(factory_name).new_record?.should be_false
