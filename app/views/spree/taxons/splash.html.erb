@@ -20,7 +20,7 @@ end if order.try(:line_items)
 
 unless bundle_variant_list.blank?
 %>
-<%= form_for :order, :url => bundle_populate_orders_url do |f| %>
+<%= form_for :order, :url => bundle_populate_orders_path do |f| %>
 <table>
   <thead>
     <tr data-hook="cart_items_headers">
