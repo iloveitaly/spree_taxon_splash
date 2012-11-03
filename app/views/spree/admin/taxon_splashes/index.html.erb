@@ -21,7 +21,7 @@
   <tbody>
     <% @splashes.each do |splash|%>
       <tr id="<%= dom_id splash %>" data-hook="admin_slides_index_rows">
-        <td width="350px" ><%=link_to splash.taxon.name, seo_url(splash.taxon), :target => "_blank" %></td>
+        <td width="350px" ><%= link_to(splash.taxon.name, seo_url(splash.taxon), :target => "_blank") if splash.taxon.present? %></td>
         <td data-hook="admin_slides_index_row_actions">
           <%= link_to_edit splash, :class => 'edit' %> &nbsp;
           <%= link_to_delete splash %>
