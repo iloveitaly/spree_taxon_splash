@@ -11,12 +11,10 @@ Gem::Specification.new do |s|
   s.email             = 'info@cliffsidedev.com'
   s.homepage          = 'http://mabblog.com/'
 
-  #s.files         = `git ls-files`.split("\n")
-  #s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
   s.require_path = 'lib'
   s.requirements << 'none'
 
-  s.add_dependency 'spree_core', '~> 1.1.0'
+  s.add_dependency 'spree_core', '~> 1.1'
 
   # test suite
   s.add_development_dependency 'shoulda-matchers'
