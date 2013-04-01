@@ -1,8 +1,6 @@
 FactoryGirl.define do
   factory :taxon_splash, :class => Spree::TaxonSplash do
     content "<h1>Hello World</h1>"
-
-    # associations:
     taxon { |p| p.association(:taxon) }
   end
 
@@ -25,10 +23,8 @@ FactoryGirl.define do
   end
 
   factory :taxon_splash_with_hierarchy_and_child_splash, :parent => :taxon_splash_with_hierarchy do |t|
-    after_create do |tx|
+    after(:create) do |tx|
       FactoryGirl.create :taxon_splash, :content => "<h1>Child Splash</h1>", :taxon => tx.taxon.children.sample
-
-      # is this needed? Still new to rspec...
       tx.reload
     end
   end

@@ -37,7 +37,7 @@ describe Spree::TaxonsController do
     it "should display a product list on the child taxon with splash defined" do
       child_splash = @root_taxon_splash.children.sample
       get nested_taxons_path(child_splash.taxon.permalink)
-      response.body.should have_content(child_splash.products.sample.name)
+      response.should have_content(child_splash.taxon.products.sample.name)
     end
 
     it "should not change the taxon display for child taxon with undefined splash" do
