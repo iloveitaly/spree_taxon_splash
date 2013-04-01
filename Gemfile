@@ -1,4 +1,5 @@
 source 'http://rubygems.org'
+gemspec
 
 group :test do
   gem 'ffaker'
@@ -11,6 +12,5 @@ group :test do
   end
 end
 
-gem 'spree', '~> 1.1.3'
-
-gemspec
+gem 'spree_auth_devise', :git => 'git://github.com/spree/spree_auth_devise', :branch => '1-2-stable'
+gem 'spree', '~> 1.2.3'

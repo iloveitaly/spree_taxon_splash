@@ -1,5 +1,5 @@
-Conditionally Custom Taxon Display
-==================================
+Custom Taxon / Category Display for Spree Commerce
+==================================================
 
 Ability to create customized splash pages for taxon displays.
 Instead of displaying a simple product listing, you can specify your own HTML completely or display a 'bundle listing' (a cart-like listing of all the products in the taxon).  
