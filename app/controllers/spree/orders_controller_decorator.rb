@@ -1,6 +1,6 @@
 Spree::OrdersController.class_eval do
-  # UPGRADE_CHECK although bundle_populate is a custom method, it is closely related to #update
-  # and should checked during the upgrade process
+  # UPGRADE_CHECK although bundle_populate is a custom method, it is closely related to #update and should checked during the upgrade process
+  
   def bundle_populate
     @order = current_order(true)
 
@@ -33,7 +33,7 @@ Spree::OrdersController.class_eval do
     if params.has_key? :checkout or request.env["HTTP_REFERER"].blank?
       redirect_to cart_path
     else
-      redirect_to(request.env["HTTP_REFERER"].end_with?('#bundle_list') ? request.env["HTTP_REFERER"] : request.env["HTTP_REFERER"] + '#bundle_list')
+      redirect_to request.env["HTTP_REFERER"] + (request.env["HTTP_REFERER"].end_with?('#bundle_list') ? '' : '#bundle_list')
     end
   end
 end

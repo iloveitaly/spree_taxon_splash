@@ -9,16 +9,9 @@ module Spree
     end
 
     def children
-      begin
-        taxon.children.select { |c| not c.taxon_splash.nil? }.map { |c| c.taxon_splash }
-      rescue
-        []
-      end
+      taxon.children.select { |c| not c.taxon_splash.nil? }.map { |c| c.taxon_splash }
+    rescue
+      []
     end 
-
-    def products
-      # TODO: see if products are manually defined, if not fallback to taxon products
-      taxon.products
-    end
   end
 end

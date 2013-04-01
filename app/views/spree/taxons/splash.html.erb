@@ -10,7 +10,7 @@
 <%
 # this is a 'sub-cart' of sorts
 order = current_order
-bundle_variant_list = @taxon.taxon_splash.products.map { |p| p.variants_including_master }.flatten
+bundle_variant_list = @taxon.products.map { |p| p.variants_including_master }.flatten
 
 relevant_line_items = {}
 
