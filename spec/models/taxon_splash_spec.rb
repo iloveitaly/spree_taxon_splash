@@ -1,16 +1,16 @@
-require File.dirname(__FILE__) + '/../spec_helper'
+require 'spec_helper'
 
 describe Spree::TaxonSplash do
 	let(:taxon_splash) { FactoryGirl.create(:taxon_splash) }
 
 	context "validations" do
-	  it { should have_valid_factory(:taxon_splash) }
-	  it { should belong_to(:taxon) }
-	  it { should have(0).children }
+	  it { taxon_splash.taxon.should_not be_nil }
+	  it { taxon_splash.children.size.should == 0 }
 
 	  it "should automatically add / remove from taxon" do
 	    s = FactoryGirl.create :taxon_splash
 	    t = s.taxon
+
 	    s.taxon.taxon_splash.should_not be_nil
 
 	    s.destroy
@@ -33,16 +33,16 @@ describe Spree::TaxonSplash do
     after(:all) { @taxon_splash.destroy }
 	  subject { @taxon_splash }
 
-	  it { should have(0).children }
+	  it { subject.children.size.should == 0 }
 	  it { subject.taxon.taxon_splash.should_not be_nil }
-	  its(:is_leaf?) { should be_true }
+	  it { subject.is_leaf?.should == true }
 	end
 
 	context "when taxon splash has children" do
 		subject { FactoryGirl.create(:taxon_splash_with_hierarchy_and_child_splash) }
 		after(:all) { subject.destroy }
 
-		it { should have(1).children }
-		its(:is_leaf?) { should be_false}
+		it { subject.children.size.should == 1 }
+		it { subject.is_leaf?.should == false }
 	end
 end

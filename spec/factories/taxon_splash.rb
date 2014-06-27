@@ -1,7 +1,7 @@
 FactoryGirl.define do
   factory :taxon_splash, :class => Spree::TaxonSplash do
     content "<h1>Hello World</h1>"
-    taxon { |p| p.association(:taxon) }
+    taxon
   end
 
   factory :taxon_splash_with_hierarchy, :parent => :taxon_splash do

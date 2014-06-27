@@ -1,4 +1,4 @@
-require File.dirname(__FILE__) + '/../spec_helper'
+require 'spec_helper'
 
 describe Spree::TaxonsController do
   include Spree::Core::Engine.routes.url_helpers
@@ -13,7 +13,7 @@ describe Spree::TaxonsController do
       s = FactoryGirl.create :taxon_splash, :taxon => t, :content => 'Unique Title'
       get nested_taxons_path(t.permalink)
       response.body.should_not == old_response.body
-      response.body.should have_content(s.content)
+      expect(response.body).to include(s.content)
     end
 
     it "should update product quantities correctly" do
@@ -31,13 +31,13 @@ describe Spree::TaxonsController do
 
     it "should not display a product list on the parent taxon" do
       get nested_taxons_path(@root_taxon_splash.taxon.permalink)
-      response.body.should have_content(@root_taxon_splash.children.sample.taxon.name)      
+      expect(response.body).to include(@root_taxon_splash.children.sample.taxon.name)      
     end
 
     it "should display a product list on the child taxon with splash defined" do
       child_splash = @root_taxon_splash.children.sample
       get nested_taxons_path(child_splash.taxon.permalink)
-      response.should have_content(child_splash.taxon.products.sample.name)
+      expect(response.body).to include(child_splash.taxon.products.sample.name)
     end
 
     it "should not change the taxon display for child taxon with undefined splash" do

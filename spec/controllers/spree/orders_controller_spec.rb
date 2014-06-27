@@ -8,21 +8,20 @@ describe Spree::OrdersController do
     end
 
     @user = FactoryGirl.create :user
-    @order = @user.orders.create
-
-    controller.stub :current_user => @user
   end
 
   let(:products) { @products }
-  let(:order) { @order }
   let(:user) { @user }
 
   it "should delete variants when quantity is zero" do
+    order = controller.current_order(true)
     order.line_items.should == []
-    variants_params = products.inject({}) { |h, p| h.merge({ "#{p.master.id}" => h.values.max.to_i + 1 }) }
-    spree_post :bundle_populate, "variants" => variants_params, "update" => ""
-    order.reload.line_items.should_not == []
 
+    variants_params = products.inject({}) { |h, p| h.merge({ "#{p.master.id}" => h.values.max.to_i + 1 }) }
+    response = spree_post :bundle_populate, "variants" => variants_params, "update" => ""
+
+    response.code.should == "302"
+    order.reload.line_items.reload.should_not == []
     products.each_with_index do |p, index|
       order.line_items.detect { |l| l.variant.id == p.master.id }.quantity.should == index + 1
     end
