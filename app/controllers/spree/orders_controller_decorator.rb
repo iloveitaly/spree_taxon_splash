@@ -1,6 +1,7 @@
 Spree::OrdersController.class_eval do
-  # UPGRADE_CHECK although bundle_populate is a custom method, it is closely related to #update and should checked during the upgrade process
-  
+  # UPGRADE_CHECK compare to the OrderController#update method
+  # https://github.com/spree/spree/blob/1-3-stable/core/app/controllers/spree/orders_controller.rb
+
   def bundle_populate
     @order = current_order(true)
 
@@ -13,7 +14,7 @@ Spree::OrdersController.class_eval do
       variant_id = variant_id.to_i
 
       # update (not add) if already in cart
-      if existing_variants[variant_id].nil?
+      if existing_variants[variant_id].blank?
         @order.add_variant(Spree::Variant.find(variant_id), quantity) if quantity > 0
       else
         @order.line_items[existing_variants[variant_id]].quantity = quantity 
@@ -21,6 +22,7 @@ Spree::OrdersController.class_eval do
     end if params[:variants]
 
     @order.line_items = @order.line_items.select {|li| li.quantity > 0 }
+    @order.restart_checkout_flow
 
     flash[:notice] = t(:added_to_cart)
 
@@ -30,7 +32,7 @@ Spree::OrdersController.class_eval do
     fire_event('spree.order.contents_changed')
 
     # TODO this is a bit messy, must be a way to clean it up. URL parsing?
-    if params.has_key? :checkout or request.env["HTTP_REFERER"].blank?
+    if params.has_key?(:checkout) || request.env["HTTP_REFERER"].blank?
       redirect_to cart_path
     else
       redirect_to request.env["HTTP_REFERER"] + (request.env["HTTP_REFERER"].end_with?('#bundle_list') ? '' : '#bundle_list')
